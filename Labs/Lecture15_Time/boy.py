@@ -89,6 +89,7 @@ class Run:
     def do(boy):
         boy.frame = (boy.frame + 1) % 8
         boy.x += boy.dir * 5
+        boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
 
 
     @staticmethod
@@ -114,6 +115,7 @@ class Boy:
                 Sleep: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, space_down: Idle}
             }
         )
+        self.font = load_font('ENCR10B.TTF', 16)
 
     def update(self):
         self.state_machine.update()
@@ -125,6 +127,7 @@ class Boy:
 
     def draw(self):
         self.state_machine.draw()
+        self.font.draw(self.x - 60, self.y + 50, f'(TimeL {get_time()}:.24)', (255,255,0))
 
     def fire_ball(self):
         ball = Ball(self.x, self.y, self.face_dir * 10)
